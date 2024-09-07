@@ -9,6 +9,8 @@ import { Users } from './common/models/users.model';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { FirebaseModule } from './firebase/firebase.module';
+import { BotService } from './bot/bot.service';
+import { BotModule } from './bot/bot.module';
 import configuration from './common/config/configuration';
 
 @Module({
@@ -32,7 +34,8 @@ import configuration from './common/config/configuration';
     AuthModule,
     SequelizeModule.forFeature([Users]),
     UserModule,
-    FirebaseModule
+    FirebaseModule,
+    BotModule
   ],
   providers: [
     {
