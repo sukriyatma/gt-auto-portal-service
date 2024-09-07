@@ -1,4 +1,4 @@
-import { Column, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { Column, Index, Model, PrimaryKey, Table } from "sequelize-typescript";
 import { BIGINT, STRING, UUID, UUIDV4 } from "sequelize";
 
 @Table({
@@ -19,6 +19,7 @@ export class Notifications extends Model {
     @Column(UUID)
     fkGroupId: string;
 
+    @Index("notification_index")
     @Column(UUID)
     fkUserId: string;
 
@@ -28,6 +29,7 @@ export class Notifications extends Model {
     @Column(STRING)
     description: string;
 
+    @Index("notification_index")
     @Column({type: BIGINT, defaultValue: null})
     createdAt: number;
 
