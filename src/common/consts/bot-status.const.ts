@@ -1,0 +1,5 @@
+export enum BotStatus {
+    CONNECTED="CONNECTED",
+    DISCONNECTED="DISCONNECTED",
+    SUSPENDED="SUSPENDED"
+}
