@@ -31,28 +31,36 @@ export class AuthGuard implements CanActivate {
       }
 
       let user: Users;
+      try {
+        if (token) {
+          const payload: UserDetails = await this.jwtService.verifyAsync(
+            token,
+            {
+              secret: process.env.JWT_SECRET
+            }
+          );
 
-      if (token) {
-        const payload: UserDetails = await this.jwtService.verifyAsync(
-          token,
-          {
-            secret: process.env.JWT_SECRET
-          }
-        );
-        user = await this.usersModel.findOne({
-          where: {
-            userId: payload.userId
-          }
-        })
-
+          user = await this.usersModel.findOne({
+            where: {
+              userId: payload.userId
+            }
+          })
+  
+        }
+  
+        if (apiKey) {
+          user = await this.usersModel.findOne({
+            where: {
+              apiKey: apiKey
+            }
+          })
+        }
+      } catch (error) {
+        throw new ApiException(ErrorCode.JWT_API_KEY_ERROR, HttpStatus.UNAUTHORIZED); 
       }
 
-      if (apiKey) {
-        user = await this.usersModel.findOne({
-          where: {
-            apiKey: apiKey
-          }
-        })
+      if (!user) {
+        throw new ApiException(ErrorCode.ACCESS_TOKEN_OR_API_KEY_INVALID, HttpStatus.UNAUTHORIZED);
       }
 
       request["user"] = user;
