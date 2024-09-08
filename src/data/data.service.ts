@@ -51,7 +51,7 @@ export class DataService{
                 ip: req.ip,
                 cpuPercentage: req.cpuPercentage,
                 ramPercentage: req.ramPercentage,
-                updateAt: now
+                updatedAt: now
             })
         }
 
