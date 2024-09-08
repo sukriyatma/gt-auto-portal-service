@@ -11,6 +11,7 @@ import { UserModule } from './user/user.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { BotService } from './bot/bot.service';
 import { BotModule } from './bot/bot.module';
+import { GroupModule } from './group/group.module';
 import configuration from './common/config/configuration';
 
 @Module({
@@ -35,7 +36,8 @@ import configuration from './common/config/configuration';
     SequelizeModule.forFeature([Users]),
     UserModule,
     FirebaseModule,
-    BotModule
+    BotModule,
+    GroupModule
   ],
   providers: [
     {
