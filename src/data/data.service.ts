@@ -41,7 +41,8 @@ export class DataService{
                 ip: req.ip,
                 cpuPercentage: req.cpuPercentage,
                 ramPercentage: req.ramPercentage,
-                createdAt: now
+                createdAt: now,
+                updatedAt: now
             }
         })
 
@@ -58,7 +59,8 @@ export class DataService{
         const [bots, isBotsCreated]: [Bots, boolean] = await this.botsModel.findOrCreate({
             where: {
                 name: req.bot.name,
-                fkGroupId: groups.groupId
+                fkGroupId: groups.groupId,
+                deletedAt: null
             },
             defaults: {
                 fkGroupId: groups.groupId,
@@ -67,7 +69,8 @@ export class DataService{
                 world: req.bot.world,
                 status: req.bot.status,
                 gems: req.bot.gems,
-                createdAt: now
+                createdAt: now,
+                updatedAt: now
             }
         })
 

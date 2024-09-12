@@ -75,8 +75,12 @@ export class GroupService {
 
         const bots: Bots[] = await this.botsModel.findAll({
             where: {
-                fkGroupId: group.groupId
-            }
+                fkGroupId: group.groupId,
+                deletedAt: null
+            },
+            order: [
+                ["updatedAt", "DESC"]
+            ]
         })
 
         const response = new GetGroupDetailReqDto();
@@ -85,6 +89,8 @@ export class GroupService {
         response.ip=group.ip;
         response.cpuPercentage=group.cpuPercentage;
         response.ramPercentage=group.ramPercentage;
+        response.updatedAt=group.updatedAt;
+        response.createdAt=group.createdAt;
         response.bots=this.toBotListResponse(bots);
 
         return ApiResponseDto.success(response);
@@ -114,7 +120,8 @@ export class GroupService {
             newBotRes.name=bot.name;
             newBotRes.status=bot.status;
             newBotRes.world=bot.world;
-            newBotRes.updateAt=bot.updatedAt;
+            newBotRes.updatedAt=bot.updatedAt;
+            newBotRes.createdAt=bot.createdAt;
 
             listBot.push(newBotRes)
         })
