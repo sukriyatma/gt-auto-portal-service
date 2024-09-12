@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
     const apiKey: string = this.extractApiKeyFromHeader(request);
     const token = this.extractTokenFromHeader(request);
     const path = request.path
-    console.info("Request incoming body:", JSON.stringify(request.body))
+    console.info(`Request incoming ${JSON.stringify(request.path)} with body : `, JSON.stringify(request.body))
     
     if (path.includes('private')) {
 
