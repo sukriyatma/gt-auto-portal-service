@@ -5,5 +5,6 @@ export class GetBotDetailResDto {
     world: string;
     status: string;
     gems: number;
-    updateAt: number;
+    updatedAt: number;
+    createdAt: number;
 }

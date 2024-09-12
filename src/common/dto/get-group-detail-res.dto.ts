@@ -7,4 +7,6 @@ export class GetGroupDetailReqDto {
     cpuPercentage: number;
     ramPercentage: number;
     bots: GetBotDetailResDto[]
+    updatedAt: number;
+    createdAt: number;
 }
