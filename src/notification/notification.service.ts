@@ -117,6 +117,11 @@ export class NotificationService {
 
     private async sendNotificationToUser(token: string, notifData: Notifications) {
         
+        if (!token) {
+            console.info(`fcmToken from account '${notifData.fkUserId}' doesn't exist`)
+            return;
+        }
+
         firebaseAdmin.messaging().send({
             token: token,
             data: {
