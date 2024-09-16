@@ -77,7 +77,7 @@ export class AuthService {
 
         let [user, isCreated]: [Users, boolean] = await this.usersModel.findOrCreate({
             where: {
-                email: response?.email ?? ""
+                discordId: response.id
             },
             defaults: {
                 email: response.email,
