@@ -47,14 +47,17 @@ export class NotificationService {
 
         if (query.next) {
             whereClause["createdAt"] = {
-                [Op.gt] : this.notificationsModel.sequelize.literal(`(SELECT "createdAt" from "${this.notificationsModel.tableName}" where "notificationId" = '${query.next}')`) 
+                [Op.lte] : this.notificationsModel.sequelize.literal(`(SELECT "createdAt" from "${this.notificationsModel.tableName}" where "notificationId" = '${query.next}')`) 
+            }
+            whereClause["notificationId"] = {
+                [Op.ne] : query.next
             }
         }
 
         const notifications: Notifications[] = await this.notificationsModel.findAll({
             where: whereClause,
             order : [
-                ["createdAt", "ASC"]
+                ["createdAt", "DESC"]
             ],
             limit: 5
         });
@@ -77,13 +80,26 @@ export class NotificationService {
         }
         
         const now = new Date().getTime();
-        await this.notificationsModel.update({
+        const [affectedCount]: [number] = await this.notificationsModel.update({
             readAt: now,
             updatedAt: now 
         },
         {
             where: whereClause
         })
+
+        if (affectedCount === 0 && req.id) {
+            await this.notificationsModel.update({
+                readAt: null,
+                updatedAt: now 
+            },
+            {
+                where: {
+                    fkUserId: user.userId,
+                    notificationId: req.id
+                }
+            })  
+        }
         return ApiResponseDto.success(null);
     }
 
@@ -125,25 +141,18 @@ export class NotificationService {
         firebaseAdmin.messaging().send({
             token: token,
             data: {
-                url: `${configuration().frontendUrl}/monitoring/group/${notifData.fkGroupId}`
-            },
-            webpush: {
-                data: {
-                    readAt: notifData.readAt + "",
-                    createdAt: notifData.createdAt + "",
-                    botId: notifData.fkBotId,
-                    groupId: notifData.fkGroupId,
-                    userId: notifData.fkUserId,
-                    type: notifData.type,
-                    id: notifData.notificationId
-                },
-                notification: {
-                    title: notifData.title,
-                    body: notifData.description,
-                    icon: `${configuration().frontendUrl}/favicon.ico`,
-                    timestamp: notifData.createdAt
-                },
-            }            
+                url: `${configuration().frontendUrl}/monitoring/group/${notifData.fkGroupId}`,
+                readAt: notifData.readAt + "",
+                createdAt: notifData.createdAt + "",
+                botId: notifData.fkBotId,
+                groupId: notifData.fkGroupId,
+                userId: notifData.fkUserId,
+                type: notifData.type,
+                id: notifData.notificationId,
+                title: notifData.title,
+                body: notifData.description,
+                icon: `${configuration().frontendUrl}/favicon.ico`
+            },          
         }).then(res => console.log("Success send notification :", res))
         .catch(err => console.error("Error occure when send notification", err))
     }
