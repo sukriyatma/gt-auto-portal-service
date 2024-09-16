@@ -22,7 +22,6 @@ export class AuthGuard implements CanActivate {
     const apiKey: string = this.extractApiKeyFromHeader(request);
     const token = this.extractTokenFromHeader(request);
     const path = request.path
-    console.info(`Request incoming ${JSON.stringify(request.path)} with body : `, JSON.stringify(request.body))
     
     if (path.includes('private')) {
 
@@ -63,6 +62,8 @@ export class AuthGuard implements CanActivate {
         throw new ApiException(ErrorCode.ACCESS_TOKEN_OR_API_KEY_INVALID, HttpStatus.UNAUTHORIZED);
       }
 
+      console.info(`Request incoming ${JSON.stringify(request.path)} with body : `, JSON.stringify(request.body))
+      
       request["user"] = user;
     }
     
@@ -74,7 +75,7 @@ export class AuthGuard implements CanActivate {
     return type === 'Bearer' ? token: undefined;
   }
 
-  private extractApiKeyFromHeader(request: Request): string | undefined {
-    return request.headers["API-KEY"] as string ?? undefined;
+  private extractApiKeyFromHeader(request: Request): string | null {
+    return request.headers["x-api-key"] as string ?? null;
   }
 }
