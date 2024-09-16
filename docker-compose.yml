@@ -1,11 +1,25 @@
 version: '3.9'
 services:
-  app:
-    container_name: gap-service-app
-    build: .
+  postgres:
+    container_name: postgres_gap
+    image: postgres:14.13
     ports:
-      - "3001:3001"
-    restart: on-failure
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "@4dariEmpat"
+    networks:
+      - gap-project
+
+  redis:
+    container_name: redis_gap
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - ./docker/redis.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     networks:
       - gap-project
 
