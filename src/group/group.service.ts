@@ -36,6 +36,9 @@ export class GroupService {
         if (queryParam.status && queryParam.status.toUpperCase().match("DESC")) {
             orderClause.push(`"onlinePercentage" DESC `);
         }
+        if (queryParam.updated && queryParam.updated.toUpperCase().match("DESC")) {
+            orderClause.push(`"updatedAt" DESC `);
+        }
 
         const query = `
             SELECT g."groupId", g."name", g.ip, g."cpuPercentage", g."ramPercentage", g."updatedAt",
@@ -48,7 +51,7 @@ export class GroupService {
                 g."fkUserId" = '${user.userId}' 
                 AND b."deletedAt" IS NULL 
                 AND g."deletedAt" IS NULL
-                ${queryParam.keyword? `AND g."name" ILIKE '%${queryParam.keyword}%'` : ''}
+                ${queryParam.keyword? `AND (g."name" ILIKE '%${queryParam.keyword}%' OR g."ip" ILIKE '%${queryParam.keyword}%')` : ''}
             GROUP BY g."groupId"
             ${orderClause.length>0 ? "ORDER BY " + orderClause.join(",").slice(0, -1) : ''};
         `;
@@ -65,7 +68,8 @@ export class GroupService {
     async getDetail(id: string): Promise<ApiResponseDto<GetGroupDetailReqDto>> {
         const group: Groups = await this.groupsModel.findOne({
             where: {
-                groupId: id
+                groupId: id,
+                deletedAt: null
             }
         })
 
@@ -103,7 +107,8 @@ export class GroupService {
         }, {
             where: {
                 groupId: req.id,
-                fkUserId: user.userId
+                fkUserId: user.userId,
+                deletedAt: null
             }
         })
 
