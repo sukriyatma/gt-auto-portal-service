@@ -24,7 +24,7 @@ module.exports = {
             },
             env_production: {
                 NODE_ENV: 'production',
-                PORT: 8080, // Port for production environment
+                PORT: 3001, // Port for production environment
             },
     
             // Advanced Options
