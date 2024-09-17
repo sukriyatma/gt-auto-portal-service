@@ -33,6 +33,7 @@ export class DataService{
         let [groups, isGroupsCreated]: [Groups, boolean] = await this.groupsModel.findOrCreate({
             where: {
                 name: req.groupName,
+                fkUserId: user.userId,
                 deletedAt: null
             },
             defaults: {
