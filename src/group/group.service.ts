@@ -42,14 +42,13 @@ export class GroupService {
 
         const query = `
             SELECT g."groupId", g."name", g.ip, g."cpuPercentage", g."ramPercentage", g."updatedAt",
-                COUNT(*) AS "botTotal",
+                COUNT(b) AS "botTotal",
                 FLOOR(SUM(CASE WHEN status = 'CONNECTED' THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) AS "onlinePercentage",
-                SUM(gems) AS "gemsTotal"
+                SUM(b.gems) AS "gemsTotal"
             FROM "Groups" g 
-            INNER JOIN "Bots" b ON b."fkGroupId" = g."groupId" 
+            LEFT JOIN "Bots" b ON b."fkGroupId" = g."groupId" and b."deletedAt" IS null 
             WHERE 
-                g."fkUserId" = '${user.userId}' 
-                AND b."deletedAt" IS NULL 
+                g."fkUserId" = '${user.userId}'
                 AND g."deletedAt" IS NULL
                 ${queryParam.keyword? `AND (g."name" ILIKE '%${queryParam.keyword}%' OR g."ip" ILIKE '%${queryParam.keyword}%')` : ''}
             GROUP BY g."groupId"
