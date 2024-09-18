@@ -14,6 +14,10 @@ export default () => ({
         password: process.env.DATABASE_PASSWORD || 'password',
         databaseName: process.env.DATABASE_NAME || 'database'
     },
+    redis: {
+        host: process.env.REDIS_HOST || "localhost",
+        port: parseInt(process.env.REDIS_PORT) || 6739
+    },
     discord: {
         discordClientId: process.env.DISCORD_CLIENT_ID || '',
         discordClientSecret: process.env.DISCORD_CLIENT_SECRET || ''

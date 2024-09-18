@@ -13,6 +13,8 @@ import { BotService } from './bot/bot.service';
 import { BotModule } from './bot/bot.module';
 import { GroupModule } from './group/group.module';
 import configuration from './common/config/configuration';
+import { CacheModule } from '@nestjs/cache-manager';
+import { RedisOptions } from './common/config/redis-config';
 
 @Module({
   imports: [
@@ -30,6 +32,7 @@ import configuration from './common/config/configuration';
       autoLoadModels: true,
       synchronize: true
     }),
+    CacheModule.registerAsync(RedisOptions),
     DataModule,
     NotificationModule,
     AuthModule,
