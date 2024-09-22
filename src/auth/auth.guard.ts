@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, HttpStatus, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/sequelize';
 import { Request } from 'express';
@@ -6,6 +6,7 @@ import { ErrorCode } from 'src/common/consts/error-code.const';
 import { UserDetails } from 'src/common/dto/user-details';
 import { ApiException } from 'src/common/exception/api-exception';
 import { Users } from 'src/common/models/users.model';
+import { GAPLoggerService } from 'src/common/utils/logger.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -14,7 +15,11 @@ export class AuthGuard implements CanActivate {
     private jwtService: JwtService,
   
     @InjectModel(Users)
-    private readonly usersModel: typeof Users) {}
+    private readonly usersModel: typeof Users,
+  
+    @Inject(GAPLoggerService)
+    private readonly logger: GAPLoggerService  
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     
@@ -62,7 +67,7 @@ export class AuthGuard implements CanActivate {
         throw new ApiException(ErrorCode.ACCESS_TOKEN_OR_API_KEY_INVALID, HttpStatus.UNAUTHORIZED);
       }
 
-      console.info(`Request incoming ${JSON.stringify(request.path)} with body : `, JSON.stringify(request.body))
+      this.logger.log(`Request incoming ${JSON.stringify(request.path)} with body : ${JSON.stringify(request.body)}`, this)
       
       request["user"] = user;
     }

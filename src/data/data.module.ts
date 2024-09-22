@@ -7,6 +7,7 @@ import { Bots } from 'src/common/models/bots.model';
 import { Users } from 'src/common/models/users.model';
 import { Notifications } from 'src/common/models/notifications.model';
 import { NotificationService } from 'src/notification/notification.service';
+import { GAPLoggerService } from 'src/common/utils/logger.service';
 
 @Module({
     imports: [
@@ -14,7 +15,8 @@ import { NotificationService } from 'src/notification/notification.service';
     ],
     providers: [
         DataService,
-        NotificationService
+        NotificationService,
+        GAPLoggerService
     ],
     controllers: [DataController]
 })

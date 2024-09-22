@@ -13,6 +13,7 @@ import { BotService } from './bot/bot.service';
 import { BotModule } from './bot/bot.module';
 import { GroupModule } from './group/group.module';
 import configuration from './common/config/configuration';
+import { GAPLoggerService } from './common/utils/logger.service';
 
 @Module({
   imports: [
@@ -44,6 +45,8 @@ import configuration from './common/config/configuration';
       provide: APP_GUARD,
       useClass: AuthGuard
     },
-  ]
+    GAPLoggerService
+  ],
+  exports: [GAPLoggerService]
 })
 export class AppModule {}
