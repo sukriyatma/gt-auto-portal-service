@@ -7,6 +7,7 @@ import { UserDetails } from 'src/common/dto/user-details';
 import { Bots } from 'src/common/models/bots.model';
 import { Groups } from 'src/common/models/groups.model';
 import { Users } from 'src/common/models/users.model';
+import { GAPLoggerService } from 'src/common/utils/logger.service';
 import { NotificationService } from 'src/notification/notification.service';
 
 @Injectable()
@@ -23,7 +24,10 @@ export class DataService{
         private readonly botsModel: typeof Bots,
 
         @Inject(NotificationService)
-        private notificationService: NotificationService
+        private notificationService: NotificationService,
+
+        @Inject(GAPLoggerService)
+        private readonly logger: GAPLoggerService
 
     ){}
 
@@ -49,6 +53,7 @@ export class DataService{
 
         // if the data exist, then updated it
         if (!isGroupsCreated) {
+            this.logger.log("Group is existed, and update it", this)
             groups = await groups.update({
                 ip: req.ip,
                 cpuPercentage: req.cpuPercentage,
@@ -76,7 +81,7 @@ export class DataService{
         })
 
         if (!isBotsCreated) {
-            bots.update({
+            await bots.update({
                 lvl: req.bot.lvl,
                 world: req.bot.world,
                 status: req.bot.status,

@@ -5,6 +5,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Users } from 'src/common/models/users.model';
 import { JwtModule } from '@nestjs/jwt';
 import "dotenv/config";
+import { GAPLoggerService } from 'src/common/utils/logger.service';
 
 @Module({
   imports: [
@@ -16,6 +17,9 @@ import "dotenv/config";
     })
   ],
   controllers: [AuthController],
-  providers: [AuthService]
+  providers: [
+    AuthService,
+    GAPLoggerService
+  ]
 })
 export class AuthModule {}
