@@ -1,7 +1,7 @@
-import { Injectable, LoggerService, LogLevel } from "@nestjs/common";
-import { trace, context as otelContext } from "@opentelemetry/api";
+import { Injectable, LoggerService, LogLevel, Scope } from "@nestjs/common";
+import { trace, context as otelContext, Span } from "@opentelemetry/api";
 
-@Injectable()
+@Injectable({ scope: Scope.TRANSIENT})
 export class GAPLoggerService implements LoggerService {
     log(message: any, ...optionalParams: any[]) {
         let context = "unknow-context";
@@ -50,6 +50,13 @@ export class GAPLoggerService implements LoggerService {
     private injectTrace(level: string, message: any, context?: string) {
         const span = trace.getSpan(otelContext.active());
         const traceId = span? span.spanContext().traceId: 'unknows-traceId';
-        console.log(`[${level}] [traceId: ${traceId}] [${context}] ${message}`)
+        const consoleMessage = `[${level}] [traceId: ${traceId}] [${context}] ${message}`;
+        
+        this.addOtelEvent(span, consoleMessage);
+        console.log(consoleMessage);
+    }
+
+    private addOtelEvent(activeSpan: Span, message: string) {
+        activeSpan.addEvent(message);
     }
 }
