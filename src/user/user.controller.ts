@@ -24,4 +24,9 @@ export class UserController {
         return await this.userService.getApiKey(user);
     }
 
+    @Post("/apikey/reset")
+    async resetApiKey(@Request() req: any): Promise<ApiResponseDto<GetApiKeyResDto>> {
+        const user: Users =  req.user;
+        return await this.userService.resetApiKey(user);
+    }
 }
