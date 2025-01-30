@@ -1,15 +1,34 @@
-### Project Description: GT Auto Portal Service
+### **Project Description: GT Auto Portal Service**
 
-The **GT Auto Portal Service** is a web application designed for **monitoring and resource management**. Built using **NestJS**, **Next.js**, **PostgreSQL**, **PM2**, **Firebase Cloud Messaging**, **Sequelize**, and **OpenTelemetry**, the project aims to provide a seamless experience in managing vehicle data for clients. The system receives data from clients via HTTP requests, processes it, performs analytics, and offers insights into the data. It also provides real-time notifications through Firebase and performance monitoring via OpenTelemetry.
+**GT Auto Portal Service** is a real-time **tracking application** designed to monitor and manage **bot activity**. The service collects performance, operational, and activity data sent from clients' bots through **HTTP requests**. This data is processed, analyzed, and presented through a user-friendly interface that allows clients to track bot performance and ensure optimal operation. With integrated real-time notifications and detailed analytics, this platform helps clients stay informed of their bot's status and activity.
 
-Key Features:
-1. **Data Reception**: The application exposes HTTP endpoints through which clients can send their vehicle-related data. This data is processed and stored in the PostgreSQL database.
-2. **Analytics & Reporting**: The system provides analytics to users based on the data received. It aggregates the information and generates reports.
-3. **Real-time Notifications**: Leveraging **Firebase Cloud Messaging (FCM)**, the application pushes notifications to users in real-time based on specific triggers or events.
-4. **Performance Monitoring**: Integrated with **OpenTelemetry**, the app tracks performance metrics and issues in real-time, helping developers monitor resource usage and resolve issues promptly.
-5. **Load Testing**: Achieved **100% success in a JMeter load test** with 1,000 users over 5 minutes, demonstrating that the system is robust and scalable.
+### **Key Features:**
+1. **Bot Activity Tracking**:
+   - The app is specifically designed to **track bot activities** in real-time. Clients use bots to interact with the system, sending data related to **bot performance, operational status**, and **activity logs** via HTTP requests.
+   - Bots can provide insights into metrics like uptime, errors, task completion rates, response times, and other operational data, helping clients monitor bot health and performance.
 
-The project is optimized for performance and reliability. It runs using **PM2** for process management and employs **Docker** to handle the PostgreSQL database setup.
+2. **Real-Time Analytics and Reporting**:
+   - Once the data is received from bots, the app processes it and generates **real-time analytics** on bot performance and operational metrics.
+   - Clients can access detailed **activity reports**, monitor key performance indicators (KPIs), and identify potential issues with their bots' behavior or performance.
+
+3. **Real-Time Notifications**:
+   - Integrated with **Firebase Cloud Messaging (FCM)**, the app sends **instant notifications** to clients whenever important events or anomalies occur. These may include system errors, performance degradation, or other alerts that require immediate attention.
+   - The notifications are actionable and direct, ensuring clients can quickly respond to any issues with their bots.
+
+4. **Automated Monitoring**:
+   - The app automatically monitors bot performance and logs all activity, ensuring continuous tracking of operational health.
+   - **OpenTelemetry** is used to monitor system performance, track issues, and provide distributed tracing to ensure all components are working optimally.
+
+5. **Scalable and Efficient**:
+   - Built using **NestJS**, **Next.js**, and **PostgreSQL**, the app is designed to scale and handle large volumes of data as more bots interact with the system.
+   - The application is optimized to handle bot-driven traffic and can process high-frequency data streams from multiple clients simultaneously.
+
+6. **High Availability**:
+   - The system is resilient, with the ability to recover from failures and maintain high availability even under high traffic conditions.
+   - Using **PM2** for process management, the app is kept running smoothly, and automatic restarts ensure minimal downtime in case of failures.
+
+7. **Performance Tested**:
+   - The system has been **load tested** to handle a large number of concurrent users and bot interactions, ensuring it performs well under high traffic scenarios. The application passed **100% of the JMeter load tests**, demonstrating its robustness and scalability.
 
 ### Technologies Used:
 - **NestJS**: Backend framework for building efficient, scalable applications.
