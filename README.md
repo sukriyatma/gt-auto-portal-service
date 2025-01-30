@@ -1,6 +1,6 @@
-### **Project Description: GT Auto Portal Service**
+# **GT Auto Portal Service**
 
-**GT Auto Portal Service** is a real-time **tracking application** designed to monitor and manage **bot activity**. The service collects performance, operational, and activity data sent from clients' bots through **HTTP requests**. This data is processed, analyzed, and presented through a user-friendly interface that allows clients to track bot performance and ensure optimal operation. With integrated real-time notifications and detailed analytics, this platform helps clients stay informed of their bot's status and activity.
+**GT Auto Portal Service** is a real-time **tracking application** designed to monitor and manage **bot activity**. The service collects performance, operational, and activity data sent from clients' bots through **HTTP requests**. This data is processed, analyzed, and presented through web application [GT Auto Portal](https://github.com/sukriyatma/gt-auto-portal), an user-friendly interface that allows clients to track bot performance and ensure optimal operation. With integrated real-time notifications and detailed analytics, this platform helps clients stay informed of their bot's status and activity.
 
 ### **Key Features:**
 1. **Bot Activity Tracking**:
